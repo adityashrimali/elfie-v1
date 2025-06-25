@@ -70,13 +70,13 @@ const MobilePrototype = () => {
 
   const AnnotationPin = ({ x, y, text, className = "" }: { x: string; y: string; text: string; className?: string }) => (
     <div 
-      className={`absolute z-40 ${className}`} 
+      className={`fixed z-50 ${className}`} 
       style={{ left: x, top: y }}
     >
       <div className="relative">
         <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold cursor-pointer group">
           !
-          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-purple-600 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap max-w-48 text-center">
+          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-purple-600 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap max-w-48 text-center z-50">
             {text}
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-purple-600"></div>
           </div>
@@ -122,10 +122,10 @@ const MobilePrototype = () => {
       </div>
 
       <AnnotationPin 
-        x="78%" 
-        y="14%" 
+        x="calc(50% + 200px)" 
+        y="calc(20% + 100px)" 
         text="Instant reward builds day-0 trust"
-        className="-translate-x-1/2"
+        className=""
       />
     </div>
   );
@@ -134,14 +134,19 @@ const MobilePrototype = () => {
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=390&h=844&fit=crop)' }}
+        style={{ backgroundImage: `url(/lovable-uploads/65d2c0fa-455a-4957-bc4c-0e366a58c1e2.png)` }}
       />
       
       <button
         onClick={triggerToast}
-        className="absolute top-20 left-4 bg-orange-600 text-white px-3 py-2 rounded-lg font-bold text-sm z-20 hover:bg-orange-700 transition-colors"
+        className="absolute top-20 left-4 z-20 hover:scale-110 transition-transform"
       >
-        🔥 5
+        <img 
+          src="/lovable-uploads/e9c8b2f9-c142-4952-ac71-f55d4237bfcf.png" 
+          alt="Fire streak" 
+          className="w-12 h-12"
+        />
+        <span className="absolute -bottom-1 -right-1 bg-orange-600 text-white px-2 py-1 rounded-full text-xs font-bold">5</span>
       </button>
 
       {showToast && (
@@ -156,7 +161,7 @@ const MobilePrototype = () => {
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=390&h=844&fit=crop)' }}
+        style={{ backgroundImage: `url(/lovable-uploads/870a38a3-b07e-4652-9e70-5df6160196b9.png)` }}
       />
       
       <button
@@ -167,8 +172,8 @@ const MobilePrototype = () => {
       </button>
 
       <AnnotationPin 
-        x="70%" 
-        y="25%" 
+        x="calc(50% + 150px)" 
+        y="calc(20% + 120px)" 
         text="Quick-add vitals → bonus"
       />
     </div>
@@ -178,7 +183,7 @@ const MobilePrototype = () => {
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=390&h=844&fit=crop)' }}
+        style={{ backgroundImage: `url(/lovable-uploads/65d2c0fa-455a-4957-bc4c-0e366a58c1e2.png)` }}
       />
       
       <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-6 z-20">
@@ -197,10 +202,10 @@ const MobilePrototype = () => {
       </div>
 
       <AnnotationPin 
-        x="50%" 
-        y="70%" 
+        x="calc(50% + 100px)" 
+        y="calc(50% + 200px)" 
         text="Tiered boards keep competition fair"
-        className="-translate-x-1/2"
+        className=""
       />
     </div>
   );
@@ -209,14 +214,22 @@ const MobilePrototype = () => {
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=390&h=844&fit=crop)' }}
+        style={{ backgroundImage: `url(/lovable-uploads/22a313a4-aef3-4cf0-842d-f05240a13bd0.png)` }}
       />
       
       <div className="absolute top-20 left-4 w-16 h-16 z-20">
         {streakIcon === 'broken' ? (
-          <div className="w-full h-full bg-gray-400 rounded-full flex items-center justify-center text-2xl">💔</div>
+          <img 
+            src="/lovable-uploads/8c610e46-3ecf-43e0-9743-f53055acc1aa.png" 
+            alt="Broken streak" 
+            className="w-full h-full"
+          />
         ) : (
-          <div className="w-full h-full bg-orange-500 rounded-full flex items-center justify-center text-2xl">🔥</div>
+          <img 
+            src="/lovable-uploads/e9c8b2f9-c142-4952-ac71-f55d4237bfcf.png" 
+            alt="Active streak" 
+            className="w-full h-full"
+          />
         )}
       </div>
 
@@ -241,8 +254,12 @@ const MobilePrototype = () => {
       case 'voucher':
         content = (
           <div className="text-center">
-            <div className="w-full h-32 bg-gradient-to-r from-orange-400 to-pink-500 rounded-xl mb-4 flex items-center justify-center">
-              <span className="text-white text-2xl font-bold">SHOPEE</span>
+            <div className="w-full h-32 rounded-xl mb-4 flex items-center justify-center overflow-hidden">
+              <img 
+                src="/lovable-uploads/48aab7ab-d0af-4e9b-940d-8cbd7ab87968.png" 
+                alt="Shopee Voucher" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <h3 className="text-xl font-bold mb-4">You earned a Shopee voucher!</h3>
             <Button onClick={closeModal} className="w-full">OK</Button>
@@ -313,25 +330,54 @@ const MobilePrototype = () => {
       
       case 'leaderboard':
         const tier = modal.content?.tier || 'Newbie';
+        const leaderboardData = {
+          Newbie: [
+            { name: "Sarah Chen", steps: "8,543", emoji: "🏃‍♀️", flavor: "Morning jogger" },
+            { name: "Mike Rodriguez", steps: "7,892", emoji: "🚴‍♂️", flavor: "Weekend warrior" },
+            { name: "Emma Thompson", steps: "7,234", emoji: "🏃‍♀️", flavor: "Dog walker pro" },
+            { name: "James Wilson", steps: "6,789", emoji: "🏃‍♂️", flavor: "Lunch break hiker" },
+            { name: "Lisa Park", steps: "6,456", emoji: "🏃‍♀️", flavor: "Stair climber" }
+          ],
+          Core: [
+            { name: "Alex Chen", steps: "12,543", emoji: "🏃‍♂️", flavor: "Marathon trainer" },
+            { name: "Sarah Kim", steps: "11,892", emoji: "🏃‍♀️", flavor: "Fitness coach" },
+            { name: "Mike Wilson", steps: "10,756", emoji: "🏃‍♂️", flavor: "Running club leader" },
+            { name: "Jennifer Lee", steps: "10,234", emoji: "🏃‍♀️", flavor: "Daily commuter" },
+            { name: "David Brown", steps: "9,876", emoji: "🏃‍♂️", flavor: "Gym enthusiast" }
+          ],
+          Power: [
+            { name: "Elena Martinez", steps: "18,765", emoji: "🏃‍♀️", flavor: "Ultra runner" },
+            { name: "Marcus Johnson", steps: "17,432", emoji: "🏃‍♂️", flavor: "Triathlete" },
+            { name: "Sofia Adams", steps: "16,891", emoji: "🏃‍♀️", flavor: "Mountain hiker" },
+            { name: "Ryan Cooper", steps: "15,654", emoji: "🏃‍♂️", flavor: "CrossFit athlete" },
+            { name: "Nina Patel", steps: "14,987", emoji: "🏃‍♀️", flavor: "Dance instructor" }
+          ]
+        };
+        
+        const users = leaderboardData[tier as keyof typeof leaderboardData];
+        const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
+        
         content = (
           <div className="text-center">
             <h3 className="text-xl font-bold mb-6">{tier} Tier Leaderboard</h3>
             <div className="space-y-3 mb-6">
-              <div className="flex items-center justify-between p-3 bg-yellow-100 rounded-lg">
-                <span className="text-2xl">🥇</span>
-                <span className="font-semibold">Alex Chen</span>
-                <span className="text-blue-600 font-bold">12,543 steps</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-gray-100 rounded-lg">
-                <span className="text-2xl">🥈</span>
-                <span className="font-semibold">Sarah Kim</span>
-                <span className="text-blue-600 font-bold">11,892 steps</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-orange-100 rounded-lg">
-                <span className="text-2xl">🥉</span>
-                <span className="font-semibold">Mike Wilson</span>
-                <span className="text-blue-600 font-bold">10,756 steps</span>
-              </div>
+              {users.map((user, index) => (
+                <div key={index} className={`flex items-center justify-between p-3 rounded-lg ${
+                  index === 0 ? 'bg-yellow-100' : 
+                  index === 1 ? 'bg-gray-100' : 
+                  index === 2 ? 'bg-orange-100' : 'bg-blue-50'
+                }`}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">{medals[index]}</span>
+                    <span className="text-lg">{user.emoji}</span>
+                  </div>
+                  <div className="flex-1 text-left ml-3">
+                    <div className="font-semibold">{user.name}</div>
+                    <div className="text-xs text-gray-600">{user.flavor}</div>
+                  </div>
+                  <span className="text-blue-600 font-bold">{user.steps} steps</span>
+                </div>
+              ))}
             </div>
             <p className="text-sm text-gray-600 mb-4">Top 3 win grocery coupons!</p>
             <Button onClick={closeModal} className="w-full">Close</Button>
@@ -378,7 +424,7 @@ const MobilePrototype = () => {
       <div className="max-w-sm mx-auto">
         <NavigationBar />
         
-        <div className="mt-16 bg-white rounded-2xl shadow-xl overflow-hidden" style={{ width: '390px', height: '844px' }}>
+        <div className="mt-16 bg-white rounded-2xl shadow-xl overflow-hidden relative" style={{ width: '390px', height: '844px' }}>
           {renderScreen()}
         </div>
         
