@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-type Screen = 'welcome' | 'streak' | 'health' | 'community' | 'saver';
+type Screen = 'welcome' | 'streak' | 'health' | 'community' | 'saver' | 'faction' | 'community-challenge';
 
 interface ModalState {
   isOpen: boolean;
@@ -22,10 +21,14 @@ const MobilePrototype = () => {
   const [showToast, setShowToast] = useState(false);
   const [streakIcon, setStreakIcon] = useState('broken');
   const [healthData, setHealthData] = useState({ weight: '', bpSys: '', bpDia: '', glucose: '' });
+  const [selectedFaction, setSelectedFaction] = useState<'rise' | 'explore' | null>(null);
 
-  const carouselImages = Array.from({ length: 10 }, (_, i) => 
-    `https://images.unsplash.com/photo-${1581091226825 + i}-a6a2a5aee158?w=390&h=844&fit=crop`
-  );
+  const carouselImages = [
+    '/lovable-uploads/ob1.png',
+    '/lovable-uploads/ob2.png',
+    '/lovable-uploads/ob3.png',
+    '/lovable-uploads/ob4.png'
+  ];
 
   const openModal = (type: string, content?: any) => {
     setModal({ isOpen: true, type, content });
@@ -50,7 +53,7 @@ const MobilePrototype = () => {
     <div className="fixed top-0 left-0 right-0 z-50 bg-white px-4 py-3 shadow-sm">
       <div className="flex justify-center max-w-sm mx-auto">
         <div className="flex bg-gray-200 rounded p-1 gap-1">
-          {(['welcome', 'streak', 'health', 'community', 'saver'] as Screen[]).map((screen) => (
+          {(['welcome', 'streak', 'health', 'community', 'saver', 'faction', 'community-challenge'] as Screen[]).map((screen) => (
             <button
               key={screen}
               onClick={() => setActiveScreen(screen)}
@@ -60,7 +63,7 @@ const MobilePrototype = () => {
                   : 'text-gray-700 hover:bg-gray-300'
               }`}
             >
-              {screen.charAt(0).toUpperCase() + screen.slice(1)}
+              {screen === 'community-challenge' ? 'Community' : screen.charAt(0).toUpperCase() + screen.slice(1)}
             </button>
           ))}
         </div>
@@ -214,7 +217,7 @@ const MobilePrototype = () => {
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(/lovable-uploads/22a313a4-aef3-4cf0-842d-f05240a13bd0.png)` }}
+        style={{ backgroundImage: `url(/lovable-uploads/home.png)` }}
       />
       
       <div className="absolute top-20 left-4 w-16 h-16 z-20">
@@ -242,6 +245,170 @@ const MobilePrototype = () => {
         >
           {streakIcon === 'full' ? 'Streak Active!' : 'Use 50 coins'}
         </Button>
+      </div>
+    </div>
+  );
+
+  const FactionScreen = () => {
+    if (selectedFaction) {
+      return (
+        <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white">
+          <div className="flex flex-col h-full p-6">
+            <button 
+              onClick={() => setSelectedFaction(null)}
+              className="self-start mb-4 text-gray-600 hover:text-gray-800"
+            >
+              ← Back
+            </button>
+            
+            <div className="flex-1 flex flex-col">
+              <div className="relative w-full h-48 mb-6 rounded-xl overflow-hidden">
+                <img 
+                  src={selectedFaction === 'rise' ? '/lovable-uploads/rise.png' : '/lovable-uploads/explore.png'}
+                  alt={selectedFaction}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              <div className="mb-6">
+                <div className="bg-gray-100 rounded-lg p-4 mb-2">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-semibold">Week 1 Medal</span>
+                    <span className="text-2xl">🥇</span>
+                  </div>
+                  <div className="text-sm text-gray-600">Resets in 4d 6h</div>
+                </div>
+              </div>
+              
+              <div className="space-y-3 mb-6">
+                <div className="flex justify-between">
+                  <span>Coins this week</span>
+                  <span className="font-semibold">1,250</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Avg coins/member</span>
+                  <span className="font-semibold">87</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Medals so far</span>
+                  <span className="font-semibold">3</span>
+                </div>
+              </div>
+              
+              <Button className="mt-auto">View full rules</Button>
+            </div>
+          </div>
+          
+          <AnnotationPin 
+            x="calc(50% + 120px)" 
+            y="calc(30% + 60px)" 
+            text="Medal resets weekly → fresh motivation, low fatigue"
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white">
+        <div className="flex flex-col h-full p-6">
+          <h2 className="text-2xl font-bold text-center mb-8">Choose Your Faction</h2>
+          
+          <div className="flex gap-4 flex-1">
+            <div 
+              onClick={() => setSelectedFaction('rise')}
+              className="flex-1 bg-gradient-to-b from-red-400 to-red-600 rounded-2xl p-6 flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
+            >
+              <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-4">
+                <img 
+                  src="/lovable-uploads/rise.png"
+                  alt="Rise faction"
+                  className="w-24 h-24 object-contain"
+                />
+              </div>
+              <h3 className="text-white text-xl font-bold mb-2">Rise</h3>
+              <div className="w-full bg-white/30 rounded-full h-2 mb-2">
+                <div className="bg-yellow-400 h-2 rounded-full w-1/2"></div>
+              </div>
+              <span className="text-white text-sm">50% progress</span>
+            </div>
+            
+            <div 
+              onClick={() => setSelectedFaction('explore')}
+              className="flex-1 bg-gradient-to-b from-orange-400 to-orange-600 rounded-2xl p-6 flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
+            >
+              <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-4">
+                <img 
+                  src="/lovable-uploads/explore.png"
+                  alt="Explore faction"
+                  className="w-24 h-24 object-contain"
+                />
+              </div>
+              <h3 className="text-white text-xl font-bold mb-2">Explore</h3>
+              <div className="w-full bg-white/30 rounded-full h-2 mb-2">
+                <div className="bg-yellow-400 h-2 rounded-full w-1/2"></div>
+              </div>
+              <span className="text-white text-sm">50% progress</span>
+            </div>
+          </div>
+        </div>
+        
+        <AnnotationPin 
+          x="calc(50%)" 
+          y="calc(80%)" 
+          text="Pick a faction – collect coins together for weekly medals"
+        />
+      </div>
+    );
+  };
+
+  const CommunityChallengeScreen = () => (
+    <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white">
+      <div className="flex flex-col h-full">
+        <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(/lovable-uploads/community_challenge.png)` }}>
+        </div>
+        
+        <div className="flex-1 p-6">
+          <div className="bg-blue-50 rounded-xl p-4 mb-6">
+            <h3 className="text-lg font-bold mb-2">Goal: 1 billion steps</h3>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-gray-200 rounded-full h-3">
+                <div className="bg-blue-500 h-3 rounded-full" style={{ width: '62%' }}></div>
+              </div>
+              <span className="text-sm font-semibold">62%</span>
+            </div>
+          </div>
+          
+          <Button 
+            onClick={() => openModal('join-event')}
+            className="w-full mb-6 bg-blue-500 hover:bg-blue-600"
+          >
+            Join local event
+          </Button>
+          
+          <h4 className="font-semibold mb-4">Upcoming Events</h4>
+          <div className="flex gap-3 overflow-x-auto">
+            {[
+              { name: 'Night Run HCMC', date: 'Jul 12' },
+              { name: 'Mumbai Monsoon Ride', date: 'Jul 20' },
+              { name: 'NYC Singles Run', date: 'Jul 25' }
+            ].map((event, index) => (
+              <div 
+                key={index}
+                onClick={() => openModal('event-details', event)}
+                className="min-w-40 bg-gray-100 rounded-lg p-3 cursor-pointer hover:bg-gray-200"
+              >
+                <div className="font-semibold text-sm">{event.name}</div>
+                <div className="text-xs text-gray-600">{event.date}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <AnnotationPin 
+          x="calc(50% - 100px)" 
+          y="calc(45%)" 
+          text="Whole community cooperates toward one mega milestone"
+        />
       </div>
     </div>
   );
@@ -394,6 +561,32 @@ const MobilePrototype = () => {
           </div>
         );
         break;
+
+      case 'join-event':
+        content = (
+          <div className="text-center">
+            <h3 className="text-xl font-bold mb-4">Join Local Event</h3>
+            <p className="text-gray-600 mb-6">Connect with your local community and work together towards the 1 billion step goal!</p>
+            <Button onClick={closeModal} className="w-full">Find Events Near Me</Button>
+          </div>
+        );
+        break;
+
+      case 'event-details':
+        const event = modal.content;
+        content = (
+          <div className="text-center">
+            <div className="h-32 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg mb-4 flex items-center justify-center">
+              <span className="text-white text-2xl font-bold">{event?.name}</span>
+            </div>
+            <h3 className="text-xl font-bold mb-2">{event?.name}</h3>
+            <p className="text-gray-600 mb-2">Date: {event?.date}</p>
+            <p className="text-gray-600 mb-2">Distance: 5km</p>
+            <p className="text-gray-600 mb-6">Meeting Point: Central Park</p>
+            <Button onClick={closeModal} className="w-full bg-green-500 hover:bg-green-600">RSVP</Button>
+          </div>
+        );
+        break;
       
       default:
         content = <div>Modal content</div>;
@@ -415,6 +608,8 @@ const MobilePrototype = () => {
       case 'health': return <HealthScreen />;
       case 'community': return <CommunityScreen />;
       case 'saver': return <SaverScreen />;
+      case 'faction': return <FactionScreen />;
+      case 'community-challenge': return <CommunityChallengeScreen />;
       default: return <WelcomeScreen />;
     }
   };
