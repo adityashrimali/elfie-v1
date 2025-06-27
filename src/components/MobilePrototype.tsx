@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -63,7 +64,7 @@ const MobilePrototype = () => {
                   : 'text-gray-700 hover:bg-gray-300'
               }`}
             >
-              {screen === 'community-challenge' ? 'Community' : screen.charAt(0).toUpperCase() + screen.slice(1)}
+              {screen === 'community-challenge' ? 'Challenge' : screen.charAt(0).toUpperCase() + screen.slice(1)}
             </button>
           ))}
         </div>
@@ -79,7 +80,7 @@ const MobilePrototype = () => {
       <div className="relative">
         <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold cursor-pointer group">
           !
-          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-purple-600 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap max-w-48 text-center z-50">
+          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-purple-600 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity min-w-max max-w-64 text-center z-50 whitespace-normal">
             {text}
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-purple-600"></div>
           </div>
@@ -125,8 +126,8 @@ const MobilePrototype = () => {
       </div>
 
       <AnnotationPin 
-        x="calc(50% + 200px)" 
-        y="calc(20% + 100px)" 
+        x="calc(50% + 100px)" 
+        y="calc(20% + 60px)" 
         text="Instant reward builds day-0 trust"
         className=""
       />
@@ -175,8 +176,8 @@ const MobilePrototype = () => {
       </button>
 
       <AnnotationPin 
-        x="calc(50% + 150px)" 
-        y="calc(20% + 120px)" 
+        x="calc(50% + 80px)" 
+        y="calc(20% + 80px)" 
         text="Quick-add vitals → bonus"
       />
     </div>
@@ -205,8 +206,8 @@ const MobilePrototype = () => {
       </div>
 
       <AnnotationPin 
-        x="calc(50% + 100px)" 
-        y="calc(50% + 200px)" 
+        x="calc(50% + 60px)" 
+        y="calc(50% + 120px)" 
         text="Tiered boards keep competition fair"
         className=""
       />
@@ -264,7 +265,7 @@ const MobilePrototype = () => {
             <div className="flex-1 flex flex-col">
               <div className="relative w-full h-48 mb-6 rounded-xl overflow-hidden">
                 <img 
-                  src={selectedFaction === 'rise' ? '/lovable-uploads/rise.png' : '/lovable-uploads/explore.png'}
+                  src={selectedFaction === 'rise' ? '/lovable-uploads/d5e151c5-5f8c-4c46-8629-a01e63b4b74d.png' : '/lovable-uploads/fafc6e18-87ce-4c31-878c-712666dcfb96.png'}
                   alt={selectedFaction}
                   className="w-full h-full object-cover"
                 />
@@ -273,17 +274,34 @@ const MobilePrototype = () => {
               <div className="mb-6">
                 <div className="bg-gray-100 rounded-lg p-4 mb-2">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-semibold">Week 1 Medal</span>
+                    <span className="font-semibold">Week 2 Current</span>
                     <span className="text-2xl">🥇</span>
                   </div>
-                  <div className="text-sm text-gray-600">Resets in 4d 6h</div>
+                  <div className="text-sm text-gray-600">Resets in 2d 14h</div>
+                </div>
+                
+                <div className="flex gap-2 mb-4">
+                  <div className="bg-green-100 rounded-lg p-3 flex-1 text-center">
+                    <div className="text-xs text-gray-600">Week 1</div>
+                    <div className="text-lg">🥈</div>
+                    <div className="text-xs text-gray-600">Completed</div>
+                  </div>
+                  <div className="bg-blue-100 rounded-lg p-3 flex-1 text-center">
+                    <div className="text-xs text-gray-600">Week 3</div>
+                    <div className="text-lg">🏆</div>
+                    <div className="text-xs text-gray-600">Upcoming</div>
+                  </div>
                 </div>
               </div>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
-                  <span>Coins this week</span>
+                  <span>Faction coins this week</span>
                   <span className="font-semibold">1,250</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Your contribution</span>
+                  <span className="font-semibold text-blue-600">180 coins</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Avg coins/member</span>
@@ -300,8 +318,8 @@ const MobilePrototype = () => {
           </div>
           
           <AnnotationPin 
-            x="calc(50% + 120px)" 
-            y="calc(30% + 60px)" 
+            x="calc(50% + 80px)" 
+            y="calc(25% + 40px)" 
             text="Medal resets weekly → fresh motivation, low fatigue"
           />
         </div>
@@ -320,7 +338,7 @@ const MobilePrototype = () => {
             >
               <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-4">
                 <img 
-                  src="/lovable-uploads/rise.png"
+                  src="/lovable-uploads/d5e151c5-5f8c-4c46-8629-a01e63b4b74d.png"
                   alt="Rise faction"
                   className="w-24 h-24 object-contain"
                 />
@@ -338,7 +356,7 @@ const MobilePrototype = () => {
             >
               <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-4">
                 <img 
-                  src="/lovable-uploads/explore.png"
+                  src="/lovable-uploads/fafc6e18-87ce-4c31-878c-712666dcfb96.png"
                   alt="Explore faction"
                   className="w-24 h-24 object-contain"
                 />
@@ -350,11 +368,29 @@ const MobilePrototype = () => {
               <span className="text-white text-sm">50% progress</span>
             </div>
           </div>
+          
+          <div className="mt-6">
+            <h3 className="text-lg font-bold mb-4 text-center">Rewards</h3>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-yellow-100 rounded-lg p-3 text-center">
+                <div className="text-2xl mb-1">🥇</div>
+                <div className="text-xs">Gold Medal</div>
+              </div>
+              <div className="bg-gray-100 rounded-lg p-3 text-center">
+                <div className="text-2xl mb-1">🎁</div>
+                <div className="text-xs">Bonus Coins</div>
+              </div>
+              <div className="bg-purple-100 rounded-lg p-3 text-center">
+                <div className="text-2xl mb-1">🏆</div>
+                <div className="text-xs">Exclusive Badge</div>
+              </div>
+            </div>
+          </div>
         </div>
         
         <AnnotationPin 
           x="calc(50%)" 
-          y="calc(80%)" 
+          y="calc(70%)" 
           text="Pick a faction – collect coins together for weekly medals"
         />
       </div>
@@ -364,17 +400,21 @@ const MobilePrototype = () => {
   const CommunityChallengeScreen = () => (
     <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white">
       <div className="flex flex-col h-full">
-        <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(/lovable-uploads/community_challenge.png)` }}>
+        <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(/lovable-uploads/f385505e-6b53-4cda-a86b-845c0d032f9e.png)` }}>
         </div>
         
         <div className="flex-1 p-6">
           <div className="bg-blue-50 rounded-xl p-4 mb-6">
             <h3 className="text-lg font-bold mb-2">Goal: 1 billion steps</h3>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-3">
               <div className="flex-1 bg-gray-200 rounded-full h-3">
                 <div className="bg-blue-500 h-3 rounded-full" style={{ width: '62%' }}></div>
               </div>
               <span className="text-sm font-semibold">62%</span>
+            </div>
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>Your contribution: 12,340 steps</span>
+              <span>Community: 620M steps</span>
             </div>
           </div>
           
@@ -405,8 +445,8 @@ const MobilePrototype = () => {
         </div>
         
         <AnnotationPin 
-          x="calc(50% - 100px)" 
-          y="calc(45%)" 
+          x="calc(50% - 80px)" 
+          y="calc(40%)" 
           text="Whole community cooperates toward one mega milestone"
         />
       </div>
@@ -527,6 +567,10 @@ const MobilePrototype = () => {
         content = (
           <div className="text-center">
             <h3 className="text-xl font-bold mb-6">{tier} Tier Leaderboard</h3>
+            <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+              <div className="text-sm text-gray-600">Your rank: #12</div>
+              <div className="text-sm font-semibold">Your steps: 5,234</div>
+            </div>
             <div className="space-y-3 mb-6">
               {users.map((user, index) => (
                 <div key={index} className={`flex items-center justify-between p-3 rounded-lg ${
