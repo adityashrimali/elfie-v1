@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,8 +5,18 @@ import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import LaunchHub from './LaunchHub';
+import NavigationBar from './NavigationBar';
+import AnnotationPin from './AnnotationPin';
+import QuickLogScreen from './screens/QuickLogScreen';
+import SnapMealsScreen from './screens/SnapMealsScreen';
+import AdaptiveTargetsScreen from './screens/AdaptiveTargetsScreen';
+import PartnerStoreScreen from './screens/PartnerStoreScreen';
+import DynamicLoadingScreen from './screens/DynamicLoadingScreen';
+import BreathingCTAScreen from './screens/BreathingCTAScreen';
+import SpareScreen from './screens/SpareScreen';
 
-type Screen = 'welcome' | 'streak' | 'health' | 'community' | 'saver' | 'faction' | 'community-challenge';
+type Screen = 'welcome' | 'streak' | 'health' | 'saver' | 'leaderboards' | 'community-challenge' | 'faction' | 'quick-log' | 'snap-meals' | 'adaptive-targets' | 'partner-store' | 'dynamic-loading' | 'breathing-cta' | 'spare';
 
 interface ModalState {
   isOpen: boolean;
@@ -16,6 +25,8 @@ interface ModalState {
 }
 
 const MobilePrototype = () => {
+  const [showHub, setShowHub] = useState(true);
+  const [category, setCategory] = useState<'quick-wins' | 'growth-loops' | 'experimental'>('quick-wins');
   const [activeScreen, setActiveScreen] = useState<Screen>('welcome');
   const [modal, setModal] = useState<ModalState>({ isOpen: false, type: '' });
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -30,6 +41,23 @@ const MobilePrototype = () => {
     '/lovable-uploads/ob3.png',
     '/lovable-uploads/ob4.png'
   ];
+
+  const handleCategorySelect = (cat: 'quick-wins' | 'growth-loops' | 'experimental') => {
+    setCategory(cat);
+    setShowHub(false);
+    // Set default screen for each category
+    switch (cat) {
+      case 'quick-wins':
+        setActiveScreen('welcome');
+        break;
+      case 'growth-loops':
+        setActiveScreen('leaderboards');
+        break;
+      case 'experimental':
+        setActiveScreen('partner-store');
+        break;
+    }
+  };
 
   const openModal = (type: string, content?: any) => {
     setModal({ isOpen: true, type, content });
@@ -50,44 +78,9 @@ const MobilePrototype = () => {
     openModal('streak-revived');
   };
 
-  const NavigationBar = () => (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-white px-4 py-3 shadow-sm">
-      <div className="flex justify-center max-w-sm mx-auto">
-        <div className="flex bg-gray-200 rounded p-1 gap-1">
-          {(['welcome', 'streak', 'health', 'community', 'saver', 'faction', 'community-challenge'] as Screen[]).map((screen) => (
-            <button
-              key={screen}
-              onClick={() => setActiveScreen(screen)}
-              className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
-                activeScreen === screen
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              {screen === 'community-challenge' ? 'Challenge' : screen.charAt(0).toUpperCase() + screen.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  const AnnotationPin = ({ x, y, text, className = "" }: { x: string; y: string; text: string; className?: string }) => (
-    <div 
-      className={`fixed z-50 ${className}`} 
-      style={{ left: x, top: y }}
-    >
-      <div className="relative">
-        <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold cursor-pointer group">
-          !
-          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-purple-600 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity min-w-max max-w-64 text-center z-50 whitespace-normal">
-            {text}
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-purple-600"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  if (showHub) {
+    return <LaunchHub onCategorySelect={handleCategorySelect} />;
+  }
 
   const WelcomeScreen = () => (
     <div className="relative w-full h-full overflow-hidden rounded-2xl">
@@ -119,7 +112,8 @@ const MobilePrototype = () => {
         <h2 className="text-white text-2xl font-bold mb-4">🎁 Welcome Voucher</h2>
         <Button 
           onClick={() => openModal('voucher')}
-          className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg"
+          className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg animate-pulse"
+          style={{ animation: 'pulse 2s infinite' }}
         >
           Redeem now
         </Button>
@@ -129,7 +123,6 @@ const MobilePrototype = () => {
         x="calc(50% + 100px)" 
         y="calc(20% + 60px)" 
         text="Instant reward builds day-0 trust"
-        className=""
       />
     </div>
   );
@@ -138,7 +131,7 @@ const MobilePrototype = () => {
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(/lovable-uploads/65d2c0fa-455a-4957-bc4c-0e366a58c1e2.png)` }}
+        style={{ backgroundImage: `url(/lovable-uploads/home.png)` }}
       />
       
       <button
@@ -183,11 +176,11 @@ const MobilePrototype = () => {
     </div>
   );
 
-  const CommunityScreen = () => (
+  const LeaderboardsScreen = () => (
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(/lovable-uploads/65d2c0fa-455a-4957-bc4c-0e366a58c1e2.png)` }}
+        style={{ backgroundImage: `url(/lovable-uploads/home.png)` }}
       />
       
       <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-6 z-20">
@@ -209,7 +202,6 @@ const MobilePrototype = () => {
         x="calc(50% + 60px)" 
         y="calc(50% + 120px)" 
         text="Tiered boards keep competition fair"
-        className=""
       />
     </div>
   );
@@ -650,18 +642,37 @@ const MobilePrototype = () => {
       case 'welcome': return <WelcomeScreen />;
       case 'streak': return <StreakScreen />;
       case 'health': return <HealthScreen />;
-      case 'community': return <CommunityScreen />;
+      case 'leaderboards': return <LeaderboardsScreen />;
       case 'saver': return <SaverScreen />;
       case 'faction': return <FactionScreen />;
       case 'community-challenge': return <CommunityChallengeScreen />;
+      case 'quick-log': return <QuickLogScreen />;
+      case 'snap-meals': return <SnapMealsScreen />;
+      case 'adaptive-targets': return <AdaptiveTargetsScreen />;
+      case 'partner-store': return <PartnerStoreScreen />;
+      case 'dynamic-loading': return <DynamicLoadingScreen />;
+      case 'breathing-cta': return <BreathingCTAScreen />;
+      case 'spare': return <SpareScreen />;
       default: return <WelcomeScreen />;
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 font-sans">
-      <div className="max-w-sm mx-auto">
-        <NavigationBar />
+      <div className="max-w-sm mx-auto relative">
+        {/* Close button */}
+        <button
+          onClick={() => setShowHub(true)}
+          className="absolute top-4 left-4 z-50 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+        >
+          <X size={16} />
+        </button>
+
+        <NavigationBar 
+          activeScreen={activeScreen} 
+          onScreenChange={setActiveScreen}
+          category={category}
+        />
         
         <div className="mt-16 bg-white rounded-2xl shadow-xl overflow-hidden relative" style={{ width: '390px', height: '844px' }}>
           {renderScreen()}
