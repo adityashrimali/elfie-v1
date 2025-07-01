@@ -35,12 +35,11 @@ const MobilePrototype = () => {
   const [healthData, setHealthData] = useState({ weight: '', bpSys: '', bpDia: '', glucose: '' });
   const [selectedFaction, setSelectedFaction] = useState<'rise' | 'explore' | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
 
-  const carouselImages = [
-    '/lovable-uploads/ob1.png',
-    '/lovable-uploads/ob2.png',
-    '/lovable-uploads/ob3.png',
-    '/lovable-uploads/ob4.png'
+  const carouselSlides = [
+    { gradient: 'linear-gradient(135deg, #00695C, #26A69A)', emoji: '🏅' },
+    { gradient: 'linear-gradient(135deg, #00897B, #4DB6AC)', emoji: '🎁' }
   ];
 
   const handleCategorySelect = (cat: 'quick-wins' | 'growth-loops' | 'experimental') => {
@@ -86,12 +85,15 @@ const MobilePrototype = () => {
   const WelcomeScreen = () => (
     <div className="relative w-full h-full overflow-hidden rounded-2xl">
       <div 
-        className="absolute inset-0 bg-cover bg-center transition-all duration-500"
+        className="absolute inset-0 transition-all duration-500 flex items-center justify-center"
         style={{ 
-          backgroundImage: `url(${carouselImages[carouselIndex]})`,
-          transform: `translateX(${carouselIndex * -100}%)`
+          background: carouselSlides[carouselIndex].gradient
         }}
-      />
+      >
+        <div className="text-6xl">
+          {carouselSlides[carouselIndex].emoji}
+        </div>
+      </div>
       
       <button 
         onClick={() => setCarouselIndex(Math.max(0, carouselIndex - 1))}
@@ -102,9 +104,9 @@ const MobilePrototype = () => {
       </button>
       
       <button 
-        onClick={() => setCarouselIndex(Math.min(carouselImages.length - 1, carouselIndex + 1))}
+        onClick={() => setCarouselIndex(Math.min(carouselSlides.length - 1, carouselIndex + 1))}
         className="absolute right-4 top-1/2 transform -translate-y-1/2 z-30 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 transition-colors"
-        disabled={carouselIndex === carouselImages.length - 1}
+        disabled={carouselIndex === carouselSlides.length - 1}
       >
         <ChevronRight size={20} />
       </button>
@@ -114,7 +116,6 @@ const MobilePrototype = () => {
         <Button 
           onClick={() => openModal('voucher')}
           className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg animate-breathe"
-          style={{ animation: 'pulse 2s infinite' }}
         >
           Redeem now
         </Button>
@@ -131,26 +132,21 @@ const MobilePrototype = () => {
   const StreakScreen = () => (
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(/lovable-uploads/home.png)` }}
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(circle at center, #5C6BC0, #1A237E)' }}
       />
       
       <button
         onClick={triggerToast}
         className="absolute top-20 left-4 z-20 hover:scale-110 transition-transform"
       >
-        <img 
-          src="/lovable-uploads/e9c8b2f9-c142-4952-ac71-f55d4237bfcf.png" 
-          alt="Fire streak" 
-          className="w-12 h-12"
-        />
+        <div className="text-3xl">🔥</div>
         <span className="absolute -bottom-1 -right-1 bg-orange-600 text-white px-2 py-1 rounded-full text-xs font-bold">5</span>
       </button>
 
       {showToast && (
-        <div className="absolute top-20 right-4 bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold text-sm z-30 animate-slide-in-right flex items-center gap-2">
-          <img src="/lovable-uploads/coin.png" alt="Coin" className="w-4 h-4" />
-          +50
+        <div className="absolute top-20 right-4 bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold text-xl z-30 animate-slide-in-right flex items-center gap-2">
+          🪙 +50
         </div>
       )}
     </div>
@@ -181,13 +177,13 @@ const MobilePrototype = () => {
   const LeaderboardsScreen = () => (
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(/lovable-uploads/home.png)` }}
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(135deg, #004D40, #00695C)' }}
       />
       
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/20" />
       
-      <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-6 z-20">
+      <div className="absolute bottom-0 left-0 right-0 bg-black/40 p-6 z-20">
         <h3 className="text-white text-xl font-bold mb-4">Pick your tier</h3>
         <div className="flex gap-3">
           {['Newbie', 'Core', 'Power'].map((tier) => (
@@ -213,24 +209,14 @@ const MobilePrototype = () => {
   const SaverScreen = () => (
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(/lovable-uploads/rewards.png)` }}
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(135deg, #263238, #37474F)' }}
       />
       
-      <div className="absolute top-20 left-4 w-16 h-16 z-20">
-        {streakIcon === 'broken' ? (
-          <img 
-            src="/lovable-uploads/streak_broken.png" 
-            alt="Broken streak" 
-            className="w-full h-full"
-          />
-        ) : (
-          <img 
-            src="/lovable-uploads/fire_full.png" 
-            alt="Active streak" 
-            className="w-full h-full"
-          />
-        )}
+      <div className="absolute top-20 left-4 w-16 h-16 z-20 flex items-center justify-center">
+        <div className={`text-4xl ${streakIcon === 'broken' ? 'opacity-30' : 'opacity-100'}`}>
+          🔥
+        </div>
       </div>
 
       <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm p-6 rounded-2xl max-w-xs text-center z-20">
@@ -309,7 +295,7 @@ const MobilePrototype = () => {
                 </div>
               </div>
               
-              <Button className="mt-auto">View full rules</Button>
+              <Button className="mt-auto animate-breathe">View full rules</Button>
             </div>
           </div>
           
@@ -416,7 +402,7 @@ const MobilePrototype = () => {
           
           <Button 
             onClick={() => openModal('join-event')}
-            className="w-full mb-6 bg-blue-500 hover:bg-blue-600"
+            className="w-full mb-6 bg-blue-500 hover:bg-blue-600 animate-breathe"
           >
             Join local event
           </Button>
@@ -465,7 +451,7 @@ const MobilePrototype = () => {
               />
             </div>
             <h3 className="text-xl font-bold mb-4">You earned a Shopee voucher!</h3>
-            <Button onClick={closeModal} className="w-full">OK</Button>
+            <Button onClick={closeModal} className="w-full animate-breathe">OK</Button>
           </div>
         );
         break;
@@ -475,7 +461,7 @@ const MobilePrototype = () => {
           <div className="text-center">
             <div className="text-6xl mb-4">🪙</div>
             <h3 className="text-xl font-bold mb-4">+{modal.content?.amount} coins added to wallet!</h3>
-            <Button onClick={closeModal} className="w-full">Awesome!</Button>
+            <Button onClick={closeModal} className="w-full animate-breathe">Awesome!</Button>
           </div>
         );
         break;
@@ -524,7 +510,7 @@ const MobilePrototype = () => {
                 />
               </div>
             </div>
-            <Button onClick={() => { closeModal(); openModal('coins', { amount: 20 }); }} className="w-full bg-green-500 hover:bg-green-600">
+            <Button onClick={() => { closeModal(); openModal('coins', { amount: 20 }); }} className="w-full bg-green-500 hover:bg-green-600 animate-breathe">
               Collect coins (20%)
             </Button>
           </div>
@@ -587,7 +573,7 @@ const MobilePrototype = () => {
               ))}
             </div>
             <p className="text-sm text-gray-600 mb-4">Top 3 win grocery coupons!</p>
-            <Button onClick={closeModal} className="w-full">Close</Button>
+            <Button onClick={closeModal} className="w-full animate-breathe">Close</Button>
           </div>
         );
         break;
@@ -597,7 +583,7 @@ const MobilePrototype = () => {
           <div className="text-center">
             <div className="text-6xl mb-4">🔥</div>
             <h3 className="text-xl font-bold mb-4">Streak revived for 50 coins!</h3>
-            <Button onClick={closeModal} className="w-full">Great!</Button>
+            <Button onClick={closeModal} className="w-full animate-breathe">Great!</Button>
           </div>
         );
         break;
@@ -607,7 +593,7 @@ const MobilePrototype = () => {
           <div className="text-center">
             <h3 className="text-xl font-bold mb-4">Join Local Event</h3>
             <p className="text-gray-600 mb-6">Connect with your local community and work together towards the 1 billion step goal!</p>
-            <Button onClick={closeModal} className="w-full">Find Events Near Me</Button>
+            <Button onClick={closeModal} className="w-full animate-breathe">Find Events Near Me</Button>
           </div>
         );
         break;
@@ -623,7 +609,7 @@ const MobilePrototype = () => {
             <p className="text-gray-600 mb-2">Date: {event?.date}</p>
             <p className="text-gray-600 mb-2">Distance: 5km</p>
             <p className="text-gray-600 mb-6">Meeting Point: Central Park</p>
-            <Button onClick={closeModal} className="w-full bg-green-500 hover:bg-green-600">RSVP</Button>
+            <Button onClick={closeModal} className="w-full bg-green-500 hover:bg-green-600 animate-breathe">RSVP</Button>
           </div>
         );
         break;
@@ -673,12 +659,19 @@ const MobilePrototype = () => {
           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
+
+      {/* Image loading overlay */}
+      {isImageLoading && (
+        <div className="fixed inset-0 bg-gray-200 z-40 flex items-center justify-center opacity-100 transition-opacity duration-300">
+          <div className="w-6 h-6 border-2 border-gray-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
       
       <div className="max-w-sm mx-auto relative">
         {/* Close button positioned outside phone frame */}
         <button
           onClick={() => setShowHub(true)}
-          className="absolute top-16 -left-12 z-50 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+          className="absolute top-16 -left-8 z-50 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
         >
           <X size={16} />
         </button>

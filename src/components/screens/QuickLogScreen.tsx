@@ -10,9 +10,9 @@ const QuickLogScreen: React.FC = () => (
       style={{ backgroundImage: `url(/lovable-uploads/c920371e-1179-4f9b-a6f1-70889cedfb57.png)` }}
     />
     
-    <div className="absolute inset-0 bg-black/20" />
+    <div className="absolute inset-0 bg-black/10" />
     
-    <div className="absolute top-20 left-4 right-4 grid grid-cols-2 gap-3 z-20">
+    <div className="absolute bottom-4 left-4 right-4 grid grid-cols-2 gap-3 z-20" style={{ paddingBottom: '16px' }}>
       <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center animate-breathe cursor-pointer hover:scale-105 transition-transform">
         <div className="text-2xl mb-2">
           <Footprints className="mx-auto text-blue-500" size={32} />
@@ -40,7 +40,7 @@ const QuickLogScreen: React.FC = () => (
 
     <AnnotationPin 
       x="calc(50%)" 
-      y="calc(80%)" 
+      y="calc(50%)" 
       text="1-tap widgets = zero friction"
     />
   </div>
