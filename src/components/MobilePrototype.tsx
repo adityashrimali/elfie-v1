@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -34,6 +34,7 @@ const MobilePrototype = () => {
   const [streakIcon, setStreakIcon] = useState('broken');
   const [healthData, setHealthData] = useState({ weight: '', bpSys: '', bpDia: '', glucose: '' });
   const [selectedFaction, setSelectedFaction] = useState<'rise' | 'explore' | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const carouselImages = [
     '/lovable-uploads/ob1.png',
@@ -43,20 +44,24 @@ const MobilePrototype = () => {
   ];
 
   const handleCategorySelect = (cat: 'quick-wins' | 'growth-loops' | 'experimental') => {
-    setCategory(cat);
-    setShowHub(false);
-    // Set default screen for each category
-    switch (cat) {
-      case 'quick-wins':
-        setActiveScreen('welcome');
-        break;
-      case 'growth-loops':
-        setActiveScreen('leaderboards');
-        break;
-      case 'experimental':
-        setActiveScreen('partner-store');
-        break;
-    }
+    setIsLoading(true);
+    setTimeout(() => {
+      setCategory(cat);
+      setShowHub(false);
+      setIsLoading(false);
+      // Set default screen for each category
+      switch (cat) {
+        case 'quick-wins':
+          setActiveScreen('welcome');
+          break;
+        case 'growth-loops':
+          setActiveScreen('leaderboards');
+          break;
+        case 'experimental':
+          setActiveScreen('partner-store');
+          break;
+      }
+    }, 1000);
   };
 
   const openModal = (type: string, content?: any) => {
@@ -77,10 +82,6 @@ const MobilePrototype = () => {
     setStreakIcon('full');
     openModal('streak-revived');
   };
-
-  if (showHub) {
-    return <LaunchHub onCategorySelect={handleCategorySelect} />;
-  }
 
   const WelcomeScreen = () => (
     <div className="relative w-full h-full overflow-hidden rounded-2xl">
@@ -112,7 +113,7 @@ const MobilePrototype = () => {
         <h2 className="text-white text-2xl font-bold mb-4">🎁 Welcome Voucher</h2>
         <Button 
           onClick={() => openModal('voucher')}
-          className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg animate-pulse"
+          className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-lg animate-breathe"
           style={{ animation: 'pulse 2s infinite' }}
         >
           Redeem now
@@ -147,7 +148,8 @@ const MobilePrototype = () => {
       </button>
 
       {showToast && (
-        <div className="absolute top-20 right-4 bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold text-sm z-30 animate-slide-in-right">
+        <div className="absolute top-20 right-4 bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold text-sm z-30 animate-slide-in-right flex items-center gap-2">
+          <img src="/lovable-uploads/coin.png" alt="Coin" className="w-4 h-4" />
           +50
         </div>
       )}
@@ -163,7 +165,7 @@ const MobilePrototype = () => {
       
       <button
         onClick={() => openModal('health-check')}
-        className="absolute top-20 right-4 w-9 h-9 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors z-20"
+        className="absolute top-20 right-4 w-9 h-9 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors z-20 animate-breathe"
       >
         <Plus size={20} />
       </button>
@@ -183,6 +185,8 @@ const MobilePrototype = () => {
         style={{ backgroundImage: `url(/lovable-uploads/home.png)` }}
       />
       
+      <div className="absolute inset-0 bg-black/40" />
+      
       <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-6 z-20">
         <h3 className="text-white text-xl font-bold mb-4">Pick your tier</h3>
         <div className="flex gap-3">
@@ -190,7 +194,7 @@ const MobilePrototype = () => {
             <Button
               key={tier}
               onClick={() => openModal('leaderboard', { tier })}
-              className="flex-1 bg-white/20 hover:bg-white/30 text-white border border-white/30"
+              className="flex-1 bg-white/20 hover:bg-white/30 text-white/80 border border-white/30 animate-breathe"
             >
               {tier}
             </Button>
@@ -210,19 +214,19 @@ const MobilePrototype = () => {
     <div className="relative w-full h-full rounded-2xl overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(/lovable-uploads/home.png)` }}
+        style={{ backgroundImage: `url(/lovable-uploads/rewards.png)` }}
       />
       
       <div className="absolute top-20 left-4 w-16 h-16 z-20">
         {streakIcon === 'broken' ? (
           <img 
-            src="/lovable-uploads/8c610e46-3ecf-43e0-9743-f53055acc1aa.png" 
+            src="/lovable-uploads/streak_broken.png" 
             alt="Broken streak" 
             className="w-full h-full"
           />
         ) : (
           <img 
-            src="/lovable-uploads/e9c8b2f9-c142-4952-ac71-f55d4237bfcf.png" 
+            src="/lovable-uploads/fire_full.png" 
             alt="Active streak" 
             className="w-full h-full"
           />
@@ -233,7 +237,7 @@ const MobilePrototype = () => {
         <p className="text-gray-800 mb-4 font-medium">Missed a day? Revive for 50 coins</p>
         <Button 
           onClick={reviveStreak}
-          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-3 rounded-lg"
+          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-3 rounded-lg animate-breathe"
           disabled={streakIcon === 'full'}
         >
           {streakIcon === 'full' ? 'Streak Active!' : 'Use 50 coins'}
@@ -657,13 +661,24 @@ const MobilePrototype = () => {
     }
   };
 
+  if (showHub) {
+    return <LaunchHub onCategorySelect={handleCategorySelect} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 p-4 font-sans">
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-gray-200 z-50 flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      
       <div className="max-w-sm mx-auto relative">
-        {/* Close button */}
+        {/* Close button positioned outside phone frame */}
         <button
           onClick={() => setShowHub(true)}
-          className="absolute top-4 left-4 z-50 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+          className="absolute top-16 -left-12 z-50 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
         >
           <X size={16} />
         </button>

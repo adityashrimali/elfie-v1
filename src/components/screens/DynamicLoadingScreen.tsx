@@ -3,15 +3,15 @@ import React, { useState, useEffect } from 'react';
 import AnnotationPin from '../AnnotationPin';
 
 const dynamicText = [
-  "Refilling your electrolytes… 🥤",
+  "Refilling electrolytes… 🥤",
   "Stretch break? Touch your toes! 🤸‍♂️",
-  "Syncing steps from Saigon streets… 🚶",
+  "Syncing Saigon steps… 🚶",
   "Hydration check — bottoms up! 💧",
+  "Charging motivation battery… 🔋",
+  "Counting bánh mì calories… 🥪",
   "Loading coins – spend them wisely 💰",
   "Lacing up virtual sneakers… 👟",
   "Your heart's in training mode ❤️",
-  "Counting bánh mì calories… 🥪",
-  "Charging motivation batteries 🔋",
   "Breath in… out… you've got this 🌬️",
   "Calling the fitness dragons… 🐉",
   "Good vibes loading for you 🌞"
@@ -19,7 +19,6 @@ const dynamicText = [
 
 const DynamicLoadingScreen: React.FC = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
